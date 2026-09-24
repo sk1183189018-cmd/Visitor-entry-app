@@ -1,0 +1,23 @@
+packages:
+
+User-facing applications
+
+- "apps/*"
+
+Backend and infrastructure services
+
+- "services/*"
+
+Shared libraries and packages
+
+- "packages/*"
+
+Optional tooling packages
+
+- "tools/*"
+
+Exclude generated/build directories
+
+- "!/node_modules/"
+- "!/dist/"
+- "!/build/"
