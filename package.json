@@ -1,0 +1,49 @@
+{
+"name": "building-entry-management",
+"version": "0.1.0",
+"private": true,
+"description": "Production-oriented Building Visitor & Entry Management System",
+"license": "UNLICENSED",
+"packageManager": "pnpm@10.15.0",
+"engines": {
+"node": ">=22.0.0",
+"pnpm": ">=10.0.0"
+},
+"scripts": {
+"dev": "turbo dev",
+"build": "turbo build",
+"test": "turbo test",
+"test:watch": "turbo test:watch",
+"lint": "turbo lint",
+"typecheck": "turbo typecheck",
+"format": "prettier --write .",
+"format:check": "prettier --check .",
+"clean": "turbo clean",
+
+"db:generate": "pnpm --filter @bem/database db:generate",
+"db:migrate": "pnpm --filter @bem/database db:migrate",
+"db:migrate:deploy": "pnpm --filter @bem/database db:migrate:deploy",
+"db:seed": "pnpm --filter @bem/database db:seed",
+"db:reset": "pnpm --filter @bem/database db:reset",
+"db:studio": "pnpm --filter @bem/database db:studio",
+
+"api:dev": "pnpm --filter @bem/api dev",
+"worker:dev": "pnpm --filter @bem/worker dev",
+"realtime:dev": "pnpm --filter @bem/realtime dev",
+
+"visitor:dev": "pnpm --filter @bem/visitor-web dev",
+"admin:dev": "pnpm --filter @bem/admin-web dev",
+"resident:dev": "pnpm --filter @bem/resident-web dev",
+
+"security:check": "pnpm audit",
+"deps:check": "pnpm outdated",
+
+"validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
+
+},
+"devDependencies": {
+"prettier": "^3.6.2",
+"turbo": "^2.5.6",
+"typescript": "^5.9.2"
+}
+}
