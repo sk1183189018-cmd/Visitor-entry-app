@@ -1,0 +1,112 @@
+name: building-entry-management
+
+services:
+postgres:
+image: postgres:17-alpine
+container_name: bem-postgres
+restart: unless-stopped
+environment:
+POSTGRES_DB: building_entry
+POSTGRES_USER: bem_app
+POSTGRES_PASSWORD: bem_local_password_change_me
+TZ: Asia/Kolkata
+ports:
+- "5432:5432"
+volumes:
+- postgres_data:/var/lib/postgresql/data
+healthcheck:
+test:
+[
+"CMD-SHELL",
+"pg_isready -U bem_app -d building_entry"
+]
+interval: 10s
+timeout: 5s
+retries: 5
+start_period: 10s
+networks:
+- bem_network
+
+redis:
+image: redis:8-alpine
+container_name: bem-redis
+restart: unless-stopped
+command:
+- redis-server
+- --appendonly
+- "yes"
+- --requirepass
+- bem_redis_local_password_change_me
+ports:
+- "6379:6379"
+volumes:
+- redis_data:/data
+healthcheck:
+test:
+[
+"CMD",
+"redis-cli",
+"-a",
+"bem_redis_local_password_change_me",
+"ping"
+]
+interval: 10s
+timeout: 5s
+retries: 5
+start_period: 5s
+networks:
+- bem_network
+
+minio:
+image: minio/minio:latest
+container_name: bem-minio
+restart: unless-stopped
+command: server /data --console-address ":9001"
+environment:
+MINIO_ROOT_USER: bem_minio_admin
+MINIO_ROOT_PASSWORD: bem_minio_local_password_change_me
+TZ: Asia/Kolkata
+ports:
+- "9000:9000"
+- "9001:9001"
+volumes:
+- minio_data:/data
+healthcheck:
+test:
+[
+"CMD",
+"mc",
+"ready",
+"local"
+]
+interval: 15s
+timeout: 10s
+retries: 5
+start_period: 20s
+networks:
+- bem_network
+
+mailpit:
+image: axllent/mailpit:latest
+container_name: bem-mailpit
+restart: unless-stopped
+ports:
+- "1025:1025"
+- "8025:8025"
+networks:
+- bem_network
+
+volumes:
+postgres_data:
+name: bem_postgres_data
+
+redis_data:
+name: bem_redis_data
+
+minio_data:
+name: bem_minio_data
+
+networks:
+bem_network:
+name: bem_network
+driver: bridge
