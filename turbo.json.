@@ -1,0 +1,100 @@
+{
+"$schema": "https://turborepo.com/schema.json",
+
+"tasks": {
+"dev": {
+"cache": false,
+"persistent": true
+},
+
+"build": {
+  "dependsOn": [
+    "^build"
+  ],
+  "outputs": [
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "out/**"
+  ],
+  "env": [
+    "NODE_ENV",
+    "APP_ENV",
+    "DATABASE_URL",
+    "API_URL",
+    "VISITOR_WEB_URL",
+    "ADMIN_WEB_URL",
+    "RESIDENT_WEB_URL"
+  ]
+},
+
+"lint": {
+  "dependsOn": [
+    "^lint"
+  ],
+  "outputs": []
+},
+
+"typecheck": {
+  "dependsOn": [
+    "^typecheck"
+  ],
+  "outputs": []
+},
+
+"test": {
+  "dependsOn": [
+    "^build"
+  ],
+  "outputs": [
+    "coverage/**",
+    "test-results/**"
+  ],
+  "env": [
+    "NODE_ENV",
+    "TEST_DATABASE_URL",
+    "TEST_REDIS_URL"
+  ]
+},
+
+"test:watch": {
+  "cache": false,
+  "persistent": true
+},
+
+"clean": {
+  "cache": false
+},
+
+"db:generate": {
+  "cache": false,
+  "outputs": []
+},
+
+"db:migrate": {
+  "cache": false,
+  "outputs": []
+},
+
+"db:migrate:deploy": {
+  "cache": false,
+  "outputs": []
+},
+
+"db:seed": {
+  "cache": false,
+  "outputs": []
+},
+
+"db:reset": {
+  "cache": false,
+  "outputs": []
+},
+
+"db:studio": {
+  "cache": false,
+  "persistent": true
+}
+
+}
+}
